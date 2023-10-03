@@ -1,0 +1,7 @@
+node_modules
+assets
+metro.config.js
+models/models
+models/*
+
+amplify-codegen-temp/models/models

@@ -1,0 +1,14 @@
+{
+  "resourceName": "outfitsImages",
+  "policyUUID": "f4ebf9c2",
+  "bucketName": "outfits7c09451f18a04b8bac9a4fb85d1d192a",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

@@ -1,40 +1,56 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable, useColorScheme } from 'react-native';
+import React, { useEffect } from "react";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Link, Tabs } from "expo-router";
+import { Pressable, useColorScheme } from "react-native";
 
-import Colors from '../../constants/Colors';
+import Colors from "../../constants/Colors";
+import { Auth } from "aws-amplify";
+import { useClosetStore } from "../../store";
 
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
 function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
+  name: React.ComponentProps<typeof FontAwesome>["name"];
   color: string;
 }) {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  useEffect(() => {
+    Auth.currentAuthenticatedUser().then((user) => {
+      if (user) {
+        useClosetStore.getState().fetchGarments();
+        useClosetStore.getState().fetchOutfits();
+      }
+    });
+  }, []);
 
+  const colorScheme = useColorScheme();
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-      }}>
+        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+      }}
+    >
       <Tabs.Screen
-        name="index"
+        name="closet/index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Closet",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="wardrobe-outline"
+              size={28}
+              color={color}
+            />
+          ),
           headerRight: () => (
-            <Link href="/modal" asChild>
+            <Link href="/closet/addGarment" asChild>
               <Pressable>
                 {({ pressed }) => (
                   <FontAwesome
-                    name="info-circle"
+                    name="plus"
                     size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
+                    color={Colors[colorScheme ?? "light"].text}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                   />
                 )}
@@ -44,10 +60,82 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="closet/addGarment"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Add New Garment",
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="closet/[garmentId]"
+        options={{
+          title: "Garment",
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="outfits/index"
+        options={{
+          title: "Outfits",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="hanger" size={28} color={color} />
+          ),
+          headerRight: () => (
+            <Link href="/outfits/addOutfit" asChild>
+              <Pressable>
+                {({ pressed }) => (
+                  <FontAwesome
+                    name="plus"
+                    size={25}
+                    color={Colors[colorScheme ?? "light"].text}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            </Link>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="outfits/addOutfit/index"
+        options={{
+          title: "Add New Outfit",
+          href: null,
+          headerRight: () => (
+            <Link href="/outfits/addOutfit/addGarments" asChild>
+              <Pressable>
+                {({ pressed }) => (
+                  <FontAwesome
+                    name="plus"
+                    size={25}
+                    color={Colors[colorScheme ?? "light"].text}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            </Link>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="outfits/[outfitId]"
+        options={{
+          title: "Outfit",
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="outfits/addOutfit/addGarments"
+        options={{
+          title: "Add Garments to Outfit",
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="me"
+        options={{
+          title: "Me",
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />
     </Tabs>

@@ -1,0 +1,44 @@
+enum AcquisitionType {
+  GIFT
+  PURCHASE
+  LEGACY
+  HANDMEDOWN
+}
+
+enum GarmentType {
+  SHIRT
+  PANTS
+  JACKET
+  DRESS
+  SKIRT
+  BLOUSE
+  SWEATER
+  SHORTS
+  VEST
+  COAT
+  SWEATSHIRT
+  UNDERWEAR
+  SOCKS
+}
+
+type Outfit @model @auth(rules: [{allow: owner}]) {
+  id: ID!
+  garments: [Garment] @manyToMany(relationName: "OutfitGarment")
+  name: String
+}
+
+type Garment @model @auth(rules: [{allow: owner}]) {
+  id: ID!
+  name: String
+  dateAcquired: AWSDate
+  brand: String
+  color: String
+  size: String
+  material: String
+  acquisitionType: AcquisitionType
+  source: String
+  image: String
+  garmentType: GarmentType
+  outfits: [Outfit] @manyToMany(relationName: "OutfitGarment")
+}
+ 
