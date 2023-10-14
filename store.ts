@@ -2,15 +2,22 @@ import { create } from "zustand";
 import { Garment, Outfit } from "./models";
 import { API, graphqlOperation } from "aws-amplify";
 import { getOutfit, listGarments, listOutfits } from "./graphql/queries";
-import { createOutfit, createOutfitGarment } from "./graphql/mutations";
+import {
+  createGarment,
+  createOutfit,
+  createOutfitGarment,
+} from "./graphql/mutations";
+import { GraphQLQuery, GraphQLResult } from "@aws-amplify/api";
+import { CreateGarmentMutation, ListOutfitsQuery } from "./API";
 
 interface ClosetState {
   garments: Garment[];
   fetchGarments: () => Promise<void>;
   addGarment: (garment: Garment) => void;
-  getGarment: (id: string) => Garment | undefined;
+  getGarment: (id: string, type: string) => Garment | undefined;
   outfits: Outfit[];
   addOutfit: (outfit: Outfit) => void;
+  fetchOutfits: () => Promise<void>;
   getOutfit: (id: string) => Outfit | undefined;
   pickedGarments: Garment[];
   pickGarments: (garments: Garment[]) => void;
@@ -22,16 +29,24 @@ export const useClosetStore = create<ClosetState>((set, get) => ({
   garments: [],
   fetchGarments: async () => {
     const response = await API.graphql(graphqlOperation(listGarments));
-    const fetchedGarments = response.data.listGarments.items;
+    const fetchedGarments: Garment[] =
+      (response as GraphQLResult<{ listGarments: { items: Garment[] } }>).data
+        ?.listGarments?.items ?? [];
     set({ garments: fetchedGarments });
   },
-  addGarment: (garment) =>
-    set((state) => ({ garments: [...state.garments, garment] })),
+  addGarment: async (garment: Garment) => {
+    await API.graphql<
+      GraphQLQuery<CreateGarmentMutation>
+    >(graphqlOperation(createGarment, { input: garment }));
+    set((state) => ({
+      garments: [...state.garments, garment],
+    }));
+  },
   getGarment: (id) => get().garments.find((garment) => garment.id === id),
   outfits: [],
   fetchOutfits: async () => {
-    const response = await API.graphql(graphqlOperation(listOutfits));
-    const fetchedOutfits = response.data.listOutfits.items;
+    const response = await API.graphql<GraphQLQuery<ListOutfitsQuery>>(graphqlOperation(listOutfits));
+    const fetchedOutfits: Outfit[] = response.data?.listOutfits?.items ?? [];
     set({ outfits: fetchedOutfits });
   },
   addOutfit: async (outfit) => {

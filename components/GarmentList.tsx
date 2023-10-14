@@ -16,14 +16,13 @@ interface GarmentListProps {
 }
 
 const GarmentList = ({ garments }: GarmentListProps) => {
+  console.log("garments", garments);
   return (
-    <View style={{ height: "80%", width: "100%" }}>
+    <View style={{ width: "100%" }}>
       <FlashList
         data={garments}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <GarmentCard garment={item}/>
-        )}
+        renderItem={({ item }) => <GarmentCard garment={item} />}
         estimatedItemSize={100}
       />
     </View>

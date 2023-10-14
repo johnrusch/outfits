@@ -6,13 +6,13 @@ import { Storage } from "aws-amplify";
 import { Image } from "expo-image";
 
 const Garment = () => {
-  const { id } = useLocalSearchParams();
+  const { id, type } = useLocalSearchParams();
   const [garment, setGarment] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const fetchGarmentAndImage = async () => {
-      const garment = useClosetStore.getState().getGarment(id);
+      const garment = useClosetStore.getState().getGarment(id, type);
       console.log("garment  ", garment);
       if (!garment) return;
       const image = await Storage.get(garment.image);
@@ -21,8 +21,10 @@ const Garment = () => {
       setGarment(updatedGarment);
       setIsLoaded(true);
     };
-    fetchGarmentAndImage();
-  }, [id]);
+    if (id && type) {
+      fetchGarmentAndImage();
+    }
+  }, [id, type]);
 
   if (!isLoaded) return null;
   console.log("garment", garment);

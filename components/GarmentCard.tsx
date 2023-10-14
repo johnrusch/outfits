@@ -5,16 +5,20 @@ import { Link } from "expo-router";
 
 interface GarmentCardProps {
   garment: {
+    id: string;
     name: string;
+    garmentType: string;
     brand: string;
     color: string;
     size: string;
+    material: string;
+    source: string;
   };
 }
 
 export const GarmentCard = ({ garment }: GarmentCardProps) => {
   return (
-    <Link href={{ pathname: `/closet/${garment.id}`, params: { id: garment.id } }}>
+    <Link href={{ pathname: `/closet/${garment.id}`, params: { id: garment.id, type: garment.garmentType } }}>
       <View style={styles.garmentCard}>
         <Text style={styles.garmentCardText}>{garment.name}</Text>
         <Text style={styles.garmentCardText}>{garment.garmentType}</Text>

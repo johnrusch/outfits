@@ -12,25 +12,6 @@ export const getOutfit = /* GraphQL */ `query GetOutfit($id: ID!) {
   getOutfit(id: $id) {
     id
     garments {
-      items {
-        garment {
-          id
-          name
-          dateAcquired
-          brand
-          color
-          size
-          material
-          acquisitionType
-          source
-          image
-          garmentType
-          createdAt
-          updatedAt
-          owner
-          __typename
-        }
-      }
       nextToken
       __typename
     }

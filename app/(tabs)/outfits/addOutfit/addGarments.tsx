@@ -12,7 +12,6 @@ export default function AddGarments() {
       (garment) => !state.pickedGarments.some((pg) => pg.id === garment.id)
     )
   );
-  const pickedGarments = useClosetStore((state) => state.pickedGarments);
 //   const garments = allGarments.filter(
 //     (garment) => !pickedGarments.includes(garment)
 //   );

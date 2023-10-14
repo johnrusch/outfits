@@ -87,7 +87,7 @@ export default function AddGarment() {
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
@@ -112,21 +112,11 @@ export default function AddGarment() {
         : null;
       if (imageKey) {
         const s3Key = await handleImagePicked(newGarment.image, imageKey);
-
-        // const s3Key = await Storage.put(imageKey, newGarment.image, {
-        //   contentType: "image/jpeg",
-        // });
         console.log("s3Key", s3Key);
         newGarment.image = s3Key;
       }
       console.log("newGarment", newGarment);
-      const createdGarment = await API.graphql<
-        GraphQLQuery<CreateGarmentMutation>
-      >({
-        query: createGarment,
-        variables: { input: newGarment },
-      });
-      console.log("Created garment: ", createdGarment);
+      useClosetStore.getState().addGarment(newGarment);
       setNewGarment({
         name: "",
         garmentType: GarmentType.SHIRT,
@@ -137,9 +127,6 @@ export default function AddGarment() {
         brand: "",
         source: "",
       });
-      useClosetStore
-        .getState()
-        .addGarments([createdGarment.data?.createGarment]);
       // Navigate to '/closet' page after successfully adding a garment
       navigation.navigate("(tabs)", { screen: "closet/index" });
     } catch (error) {
