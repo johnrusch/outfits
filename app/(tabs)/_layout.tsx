@@ -1,3 +1,10 @@
+/**
+ * Renders the tab layout component.
+ * This component displays a tab-based navigation system with different screens.
+ * It includes tabs for "Closet", "Add New Garment", "Garment", "Outfits", "Add New Outfit",
+ * "Add Garments to Outfit", and "Me".
+ * Each tab has its own screen and options.
+ */
 import React, { useEffect } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
