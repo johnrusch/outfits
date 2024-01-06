@@ -1,3 +1,7 @@
+/**
+ * The layout component for the app.
+ **/ 
+
 import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import {
@@ -14,7 +18,7 @@ import { Amplify } from "aws-amplify";
 import { Authenticator } from "@aws-amplify/ui-react-native";
 import { ThemeProvider as AmplifyThemeProvider } from "@aws-amplify/ui-react-native";
 
-import awsExports from "../aws-exports";
+import awsExports from './aws-exports';
 Amplify.configure(awsExports);
 
 export {

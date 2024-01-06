@@ -1,39 +1,32 @@
-import { useClosetStore } from "../store";
-import { API, graphqlOperation } from "aws-amplify";
+import { API, graphqlOperation } from 'aws-amplify';
+import { listGarments } from '../graphql/queries';
+import { useClosetStore } from '../store';
 
-jest.mock("../store");
-jest.mock("aws-amplify");
+jest.mock('aws-amplify');
 
-describe("useClosetStore", () => {
+// Define the mock function
+const graphqlMock = API.graphql as jest.MockedFunction<typeof API.graphql>;
+
+describe('useClosetStore', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-  });
-  it("fetches garments", async () => {
-    const mockFetchGarments = jest.fn();
-    jest
-      .mocked(useClosetStore.getState)
-      .mockReturnValue({ ...useClosetStore.getState(), fetchGarments: mockFetchGarments });
-    await mockFetchGarments();
-    expect(useClosetStore.getState().garments.length).toBeGreaterThan(0);
+    useClosetStore.setState({ garments: [] }); // Reset the state before each test
+    graphqlMock.mockClear(); // Clear the mock before each test
   });
 
-  it("adds a garment", async () => {
-    const mockAddGarment = jest.fn();
-    jest.mocked(useClosetStore.getState).mockReturnValue({
-      ...useClosetStore.getState(),
-      addGarment: mockAddGarment,
+  test('fetchGarments makes the correct API call and updates the state', async () => {
+    const mockGarments = [{ id: '1', name: 'Garment 1' }, { id: '2', name: 'Garment 2' }];
+
+    // Mock the API.graphql function
+    graphqlMock.mockResolvedValue({
+      data: { listGarments: { items: mockGarments } },
     });
-    const newGarment = {
-      name: "Test Garment",
-      garmentType: "shirt",
-      image: "test-image",
-      color: "red",
-      size: "M",
-      material: "cotton",
-      brand: "Test Brand",
-      source: "Test Source",
-    };
-    await mockAddGarment(newGarment);
-    expect(useClosetStore.getState().garments).toContainEqual(newGarment);
+
+    await useClosetStore.getState().fetchGarments();
+
+    // Check that API.graphql was called with the correct arguments
+    expect(API.graphql).toHaveBeenCalledWith(graphqlOperation(listGarments));
+
+    // Check that the state was updated correctly
+    expect(useClosetStore.getState().garments).toEqual(mockGarments);
   });
 });

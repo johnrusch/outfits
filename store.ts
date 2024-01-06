@@ -14,7 +14,7 @@ interface ClosetState {
   garments: Garment[];
   fetchGarments: () => Promise<void>;
   addGarment: (garment: Garment) => void;
-  getGarment: (id: string, type: string) => Garment | undefined;
+  getGarment: (id: string) => Garment | undefined;
   outfits: Outfit[];
   addOutfit: (outfit: Outfit) => void;
   fetchOutfits: () => Promise<void>;
@@ -45,18 +45,18 @@ export const useClosetStore = create<ClosetState>((set, get) => ({
   getGarment: (id) => get().garments.find((garment) => garment.id === id),
   outfits: [],
   fetchOutfits: async () => {
-    const response = await API.graphql<GraphQLQuery<ListOutfitsQuery>>(graphqlOperation(listOutfits));
-    const fetchedOutfits: Outfit[] = response.data?.listOutfits?.items ?? [];
-    set({ outfits: fetchedOutfits });
+    try {
+      const response = await API.graphql(graphqlOperation(listOutfits));
+      const fetchedOutfits: Outfit[] = 
+        (response as GraphQLResult<{ listOutfits: { items: Outfit[] }}>).data
+          ?.listOutfits?.items ?? [];
+      set({ outfits: fetchedOutfits });
+    } catch (error) {
+      console.log(error);
+    }
   },
   addOutfit: async (outfit) => {
-    const createdOutfit = await API.graphql(
-      graphqlOperation(createOutfit, {
-        input: {
-          name: outfit.name,
-        },
-      })
-    );
+    const createdOutfit = await API.graphql({query: createOutfit, variables: {input: outfit}});
     for (const garment of outfit.garments) {
       await API.graphql(
         graphqlOperation(createOutfitGarment, {

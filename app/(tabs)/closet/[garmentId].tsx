@@ -12,7 +12,7 @@ const Garment = () => {
 
   useEffect(() => {
     const fetchGarmentAndImage = async () => {
-      const garment = useClosetStore.getState().getGarment(id, type);
+      const garment = useClosetStore.getState().getGarment(id);
       console.log("garment  ", garment);
       if (!garment) return;
       const image = await Storage.get(garment.image);
