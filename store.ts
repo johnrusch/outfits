@@ -1,25 +1,23 @@
 import { create } from "zustand";
-import { Garment, Outfit } from "./models";
 import { API, graphqlOperation } from "aws-amplify";
-import { getOutfit, listGarments, listOutfits } from "./graphql/queries";
+import { listGarments, listOutfits } from "./graphql/queries";
 import {
-  createGarment,
-  createOutfit,
-  createOutfitGarment,
+  createGarment, createOutfit
 } from "./graphql/mutations";
 import { GraphQLQuery, GraphQLResult } from "@aws-amplify/api";
-import { CreateGarmentMutation, ListOutfitsQuery } from "./API";
+import { CreateGarmentInput, CreateGarmentMutation, CreateOutfitMutation, Garment, Outfit } from "./API";
 
 interface ClosetState {
   garments: Garment[];
   fetchGarments: () => Promise<void>;
-  addGarment: (garment: Garment) => void;
+  addGarment: (garment: CreateGarmentInput) => Promise<void>;
   getGarment: (id: string) => Garment | undefined;
   outfits: Outfit[];
   addOutfit: (outfit: Outfit) => void;
   fetchOutfits: () => Promise<void>;
   getOutfit: (id: string) => Outfit | undefined;
   pickedGarments: Garment[];
+  pickableGarments: Garment[];
   pickGarments: (garments: Garment[]) => void;
   removePickedGarment: (garment: Garment) => void;
   clearPickedGarments: () => void;
@@ -34,13 +32,22 @@ export const useClosetStore = create<ClosetState>((set, get) => ({
         ?.listGarments?.items ?? [];
     set({ garments: fetchedGarments });
   },
-  addGarment: async (garment: Garment) => {
-    await API.graphql<
-      GraphQLQuery<CreateGarmentMutation>
-    >(graphqlOperation(createGarment, { input: garment }));
-    set((state) => ({
-      garments: [...state.garments, garment],
-    }));
+  addGarment: async (garment) => {
+    try {
+      const response = await API.graphql(graphqlOperation(createGarment, { input: garment })) as { data: CreateGarmentMutation };
+      const createdGarmentData = response.data.createGarment;
+      if (createdGarmentData) {
+        const createdGarment: Garment = createdGarmentData as Garment;
+        console.log('Garment created: ', createdGarment);
+        if (createdGarment) {
+          set((state) => ({
+            garments: [...state.garments, createdGarment],
+          }));
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
   },
   getGarment: (id) => get().garments.find((garment) => garment.id === id),
   outfits: [],
@@ -56,30 +63,26 @@ export const useClosetStore = create<ClosetState>((set, get) => ({
     }
   },
   addOutfit: async (outfit) => {
-    const createdOutfit = await API.graphql({query: createOutfit, variables: {input: outfit}});
-    for (const garment of outfit.garments) {
-      await API.graphql(
-        graphqlOperation(createOutfitGarment, {
-          input: {
-            outfitId: createdOutfit.data?.createOutfit.id,
-            garmentId: garment.id,
-          },
-        })
-      );
+    try {
+      const response = await API.graphql(graphqlOperation(createOutfit, { input: outfit })) as { data: CreateOutfitMutation };
+      const createdOutfitData = response.data.createOutfit;
+
+      if (createdOutfitData) {
+        const createdOutfit: Outfit = createdOutfitData as Outfit;
+        set((state) => ({
+          outfits: [...state.outfits, createdOutfit],
+        }));
+      }
+    } catch (error) {
+      console.log(error);
     }
-    set((state) => ({
-      outfits: [...state.outfits, createdOutfit.data?.createOutfit],
-    }));
   },
-  getOutfit: async (id) => {
-    const outfit = await API.graphql(
-      graphqlOperation(getOutfit, {
-        id: id,
-      })
-    );
-    return outfit.data.getOutfit;
+  getOutfit: (id) => {
+    const outfit = get().outfits.find(outfit => outfit.id === id);
+    return outfit;
   },
   pickedGarments: [],
+  pickableGarments: [],
   pickGarments: (garments) => {
     set((state) => ({
       pickedGarments: [...state.pickedGarments, ...garments],
