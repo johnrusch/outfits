@@ -8,6 +8,25 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
+export const addGarmentsToOutfit = /* GraphQL */ `mutation AddGarmentsToOutfit($outfitId: ID!, $garmentIds: [ID!]!) {
+  addGarmentsToOutfit(outfitId: $outfitId, garmentIds: $garmentIds) {
+    id
+    garments {
+      nextToken
+      __typename
+    }
+    name
+    dateWorn
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.AddGarmentsToOutfitMutationVariables,
+  APITypes.AddGarmentsToOutfitMutation
+>;
 export const createOutfit = /* GraphQL */ `mutation CreateOutfit(
   $input: CreateOutfitInput!
   $condition: ModelOutfitConditionInput
@@ -19,6 +38,7 @@ export const createOutfit = /* GraphQL */ `mutation CreateOutfit(
       __typename
     }
     name
+    dateWorn
     createdAt
     updatedAt
     owner
@@ -40,6 +60,7 @@ export const updateOutfit = /* GraphQL */ `mutation UpdateOutfit(
       __typename
     }
     name
+    dateWorn
     createdAt
     updatedAt
     owner
@@ -61,6 +82,7 @@ export const deleteOutfit = /* GraphQL */ `mutation DeleteOutfit(
       __typename
     }
     name
+    dateWorn
     createdAt
     updatedAt
     owner
@@ -172,6 +194,7 @@ export const createOutfitGarment = /* GraphQL */ `mutation CreateOutfitGarment(
     outfit {
       id
       name
+      dateWorn
       createdAt
       updatedAt
       owner
@@ -215,6 +238,7 @@ export const updateOutfitGarment = /* GraphQL */ `mutation UpdateOutfitGarment(
     outfit {
       id
       name
+      dateWorn
       createdAt
       updatedAt
       owner
@@ -258,6 +282,7 @@ export const deleteOutfitGarment = /* GraphQL */ `mutation DeleteOutfitGarment(
     outfit {
       id
       name
+      dateWorn
       createdAt
       updatedAt
       owner
