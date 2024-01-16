@@ -19,6 +19,7 @@ export const onCreateOutfit = /* GraphQL */ `subscription OnCreateOutfit(
       __typename
     }
     name
+    dateWorn
     createdAt
     updatedAt
     owner
@@ -40,6 +41,7 @@ export const onUpdateOutfit = /* GraphQL */ `subscription OnUpdateOutfit(
       __typename
     }
     name
+    dateWorn
     createdAt
     updatedAt
     owner
@@ -61,6 +63,7 @@ export const onDeleteOutfit = /* GraphQL */ `subscription OnDeleteOutfit(
       __typename
     }
     name
+    dateWorn
     createdAt
     updatedAt
     owner
@@ -172,6 +175,7 @@ export const onCreateOutfitGarment = /* GraphQL */ `subscription OnCreateOutfitG
     outfit {
       id
       name
+      dateWorn
       createdAt
       updatedAt
       owner
@@ -215,6 +219,7 @@ export const onUpdateOutfitGarment = /* GraphQL */ `subscription OnUpdateOutfitG
     outfit {
       id
       name
+      dateWorn
       createdAt
       updatedAt
       owner
@@ -258,6 +263,7 @@ export const onDeleteOutfitGarment = /* GraphQL */ `subscription OnDeleteOutfitG
     outfit {
       id
       name
+      dateWorn
       createdAt
       updatedAt
       owner

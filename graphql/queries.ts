@@ -16,6 +16,7 @@ export const getOutfit = /* GraphQL */ `query GetOutfit($id: ID!) {
       __typename
     }
     name
+    dateWorn
     createdAt
     updatedAt
     owner
@@ -32,6 +33,7 @@ export const listOutfits = /* GraphQL */ `query ListOutfits(
     items {
       id
       name
+      dateWorn
       createdAt
       updatedAt
       owner
@@ -111,6 +113,7 @@ export const getOutfitGarment = /* GraphQL */ `query GetOutfitGarment($id: ID!) 
     outfit {
       id
       name
+      dateWorn
       createdAt
       updatedAt
       owner

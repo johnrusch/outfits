@@ -2,63 +2,12 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateOutfitInput = {
-  id?: string | null,
-  name?: string | null,
-};
-
-export type ModelOutfitConditionInput = {
-  name?: ModelStringInput | null,
-  and?: Array< ModelOutfitConditionInput | null > | null,
-  or?: Array< ModelOutfitConditionInput | null > | null,
-  not?: ModelOutfitConditionInput | null,
-};
-
-export type ModelStringInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
-};
-
-export enum ModelAttributeTypes {
-  binary = "binary",
-  binarySet = "binarySet",
-  bool = "bool",
-  list = "list",
-  map = "map",
-  number = "number",
-  numberSet = "numberSet",
-  string = "string",
-  stringSet = "stringSet",
-  _null = "_null",
-}
-
-
-export type ModelSizeInput = {
-  ne?: number | null,
-  eq?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  between?: Array< number | null > | null,
-};
-
 export type Outfit = {
   __typename: "Outfit",
   id: string,
   garments?: ModelOutfitGarmentConnection | null,
   name?: string | null,
+  dateWorn?: Array< string | null > | null,
   createdAt: string,
   updatedAt: string,
   owner?: string | null,
@@ -126,9 +75,64 @@ export enum GarmentType {
 }
 
 
+export type CreateOutfitInput = {
+  id?: string | null,
+  name?: string | null,
+  dateWorn?: Array< string | null > | null,
+};
+
+export type ModelOutfitConditionInput = {
+  name?: ModelStringInput | null,
+  dateWorn?: ModelStringInput | null,
+  and?: Array< ModelOutfitConditionInput | null > | null,
+  or?: Array< ModelOutfitConditionInput | null > | null,
+  not?: ModelOutfitConditionInput | null,
+};
+
+export type ModelStringInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
+};
+
+export enum ModelAttributeTypes {
+  binary = "binary",
+  binarySet = "binarySet",
+  bool = "bool",
+  list = "list",
+  map = "map",
+  number = "number",
+  numberSet = "numberSet",
+  string = "string",
+  stringSet = "stringSet",
+  _null = "_null",
+}
+
+
+export type ModelSizeInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+};
+
 export type UpdateOutfitInput = {
   id: string,
   name?: string | null,
+  dateWorn?: Array< string | null > | null,
 };
 
 export type DeleteOutfitInput = {
@@ -236,6 +240,7 @@ export type DeleteOutfitGarmentInput = {
 export type ModelOutfitFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
+  dateWorn?: ModelStringInput | null,
   and?: Array< ModelOutfitFilterInput | null > | null,
   or?: Array< ModelOutfitFilterInput | null > | null,
   not?: ModelOutfitFilterInput | null,
@@ -288,6 +293,7 @@ export enum ModelSortDirection {
 export type ModelSubscriptionOutfitFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   name?: ModelSubscriptionStringInput | null,
+  dateWorn?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionOutfitFilterInput | null > | null,
   or?: Array< ModelSubscriptionOutfitFilterInput | null > | null,
 };
@@ -346,6 +352,27 @@ export type ModelSubscriptionOutfitGarmentFilterInput = {
   or?: Array< ModelSubscriptionOutfitGarmentFilterInput | null > | null,
 };
 
+export type AddGarmentsToOutfitMutationVariables = {
+  outfitId: string,
+  garmentIds: Array< string >,
+};
+
+export type AddGarmentsToOutfitMutation = {
+  addGarmentsToOutfit?:  {
+    __typename: "Outfit",
+    id: string,
+    garments?:  {
+      __typename: "ModelOutfitGarmentConnection",
+      nextToken?: string | null,
+    } | null,
+    name?: string | null,
+    dateWorn?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
 export type CreateOutfitMutationVariables = {
   input: CreateOutfitInput,
   condition?: ModelOutfitConditionInput | null,
@@ -360,6 +387,7 @@ export type CreateOutfitMutation = {
       nextToken?: string | null,
     } | null,
     name?: string | null,
+    dateWorn?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
     owner?: string | null,
@@ -380,6 +408,7 @@ export type UpdateOutfitMutation = {
       nextToken?: string | null,
     } | null,
     name?: string | null,
+    dateWorn?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
     owner?: string | null,
@@ -400,6 +429,7 @@ export type DeleteOutfitMutation = {
       nextToken?: string | null,
     } | null,
     name?: string | null,
+    dateWorn?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
     owner?: string | null,
@@ -508,6 +538,7 @@ export type CreateOutfitGarmentMutation = {
       __typename: "Outfit",
       id: string,
       name?: string | null,
+      dateWorn?: Array< string | null > | null,
       createdAt: string,
       updatedAt: string,
       owner?: string | null,
@@ -550,6 +581,7 @@ export type UpdateOutfitGarmentMutation = {
       __typename: "Outfit",
       id: string,
       name?: string | null,
+      dateWorn?: Array< string | null > | null,
       createdAt: string,
       updatedAt: string,
       owner?: string | null,
@@ -592,6 +624,7 @@ export type DeleteOutfitGarmentMutation = {
       __typename: "Outfit",
       id: string,
       name?: string | null,
+      dateWorn?: Array< string | null > | null,
       createdAt: string,
       updatedAt: string,
       owner?: string | null,
@@ -632,6 +665,7 @@ export type GetOutfitQuery = {
       nextToken?: string | null,
     } | null,
     name?: string | null,
+    dateWorn?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
     owner?: string | null,
@@ -651,6 +685,7 @@ export type ListOutfitsQuery = {
       __typename: "Outfit",
       id: string,
       name?: string | null,
+      dateWorn?: Array< string | null > | null,
       createdAt: string,
       updatedAt: string,
       owner?: string | null,
@@ -731,6 +766,7 @@ export type GetOutfitGarmentQuery = {
       __typename: "Outfit",
       id: string,
       name?: string | null,
+      dateWorn?: Array< string | null > | null,
       createdAt: string,
       updatedAt: string,
       owner?: string | null,
@@ -842,6 +878,7 @@ export type OnCreateOutfitSubscription = {
       nextToken?: string | null,
     } | null,
     name?: string | null,
+    dateWorn?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
     owner?: string | null,
@@ -862,6 +899,7 @@ export type OnUpdateOutfitSubscription = {
       nextToken?: string | null,
     } | null,
     name?: string | null,
+    dateWorn?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
     owner?: string | null,
@@ -882,6 +920,7 @@ export type OnDeleteOutfitSubscription = {
       nextToken?: string | null,
     } | null,
     name?: string | null,
+    dateWorn?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
     owner?: string | null,
@@ -990,6 +1029,7 @@ export type OnCreateOutfitGarmentSubscription = {
       __typename: "Outfit",
       id: string,
       name?: string | null,
+      dateWorn?: Array< string | null > | null,
       createdAt: string,
       updatedAt: string,
       owner?: string | null,
@@ -1032,6 +1072,7 @@ export type OnUpdateOutfitGarmentSubscription = {
       __typename: "Outfit",
       id: string,
       name?: string | null,
+      dateWorn?: Array< string | null > | null,
       createdAt: string,
       updatedAt: string,
       owner?: string | null,
@@ -1074,6 +1115,7 @@ export type OnDeleteOutfitGarmentSubscription = {
       __typename: "Outfit",
       id: string,
       name?: string | null,
+      dateWorn?: Array< string | null > | null,
       createdAt: string,
       updatedAt: string,
       owner?: string | null,
