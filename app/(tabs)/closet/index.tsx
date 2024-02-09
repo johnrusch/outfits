@@ -24,8 +24,6 @@ export default function ClosetLayout() {
     setOrganizedGarments(sortedGarments);
   }, [garments]);
 
-  console.log("garments", garments);
-  console.log("organizedGarments", organizedGarments);
   return (
     <View style={styles.container}>
       {Object.keys(organizedGarments).map((key) => (

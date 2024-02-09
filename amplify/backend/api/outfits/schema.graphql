@@ -44,6 +44,12 @@ type Garment @model @auth(rules: [{allow: owner}]) {
 }
 
 type Mutation {
-  addGarmentsToOutfit(outfitId: ID!, garmentIds: [ID!]!): Outfit @function(name: "outfits34db5025-${env}")
+  createOutfitWithGarments(input: CreateOutfitWithGarmentsInput!): Outfit @function(name: "outfits34db5025-${env}")
+}
+
+input CreateOutfitWithGarmentsInput {
+  name: String!
+  garmentIds: [ID!]!
+  userId: ID!
 }
  

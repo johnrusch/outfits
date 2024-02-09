@@ -72,7 +72,6 @@ export default function AddGarment() {
   };
 
   const handleImagePicked = async (pickerResult: string, fileName: string) => {
-    console.log("the parametres: ", pickerResult, fileName);
     try {
       setPercentage(0);
       const img = await fetchImageFromUri(pickerResult);
@@ -112,10 +111,8 @@ export default function AddGarment() {
         : null;
       if (imageKey) {
         const s3Key = await handleImagePicked(newGarment.image, imageKey);
-        console.log("s3Key", s3Key);
         newGarment.image = s3Key;
       }
-      console.log("newGarment", newGarment);
       useClosetStore.getState().addGarment(newGarment);
       setNewGarment({
         name: "",

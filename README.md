@@ -2,7 +2,7 @@
 
 ## Description
 
-An Expo app for managing wardrobes and saving outfits.
+An Expo/React Native app for managing your wardrobe and saving outfits.
 
 
 

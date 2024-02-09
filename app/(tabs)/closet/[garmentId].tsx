@@ -13,7 +13,6 @@ const Garment = () => {
   useEffect(() => {
     const fetchGarmentAndImage = async () => {
       const garment = useClosetStore.getState().getGarment(id);
-      console.log("garment  ", garment);
       if (!garment) return;
       const image = await Storage.get(garment.image);
       // Update the garment object with the new image URL
@@ -27,7 +26,6 @@ const Garment = () => {
   }, [id, type]);
 
   if (!isLoaded) return null;
-  console.log("garment", garment);
   return (
     <View
       style={{

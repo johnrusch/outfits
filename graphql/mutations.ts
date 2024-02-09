@@ -8,8 +8,8 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
-export const addGarmentsToOutfit = /* GraphQL */ `mutation AddGarmentsToOutfit($outfitId: ID!, $garmentIds: [ID!]!) {
-  addGarmentsToOutfit(outfitId: $outfitId, garmentIds: $garmentIds) {
+export const createOutfitWithGarments = /* GraphQL */ `mutation CreateOutfitWithGarments($input: CreateOutfitWithGarmentsInput!) {
+  createOutfitWithGarments(input: $input) {
     id
     garments {
       nextToken
@@ -24,8 +24,8 @@ export const addGarmentsToOutfit = /* GraphQL */ `mutation AddGarmentsToOutfit($
   }
 }
 ` as GeneratedMutation<
-  APITypes.AddGarmentsToOutfitMutationVariables,
-  APITypes.AddGarmentsToOutfitMutation
+  APITypes.CreateOutfitWithGarmentsMutationVariables,
+  APITypes.CreateOutfitWithGarmentsMutation
 >;
 export const createOutfit = /* GraphQL */ `mutation CreateOutfit(
   $input: CreateOutfitInput!
