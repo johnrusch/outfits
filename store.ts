@@ -1,10 +1,8 @@
 import { create } from "zustand";
 import { API, graphqlOperation, Auth } from "aws-amplify";
-import { getOutfit, listGarments, listOutfits } from "./graphql/queries";
+import { listGarments, listOutfits } from "./graphql/queries";
 import {
   createGarment,
-  createOutfit,
-  createOutfitGarment,
   createOutfitWithGarments,
 } from "./graphql/mutations";
 import { GraphQLResult } from "@aws-amplify/api";
@@ -12,7 +10,6 @@ import {
   CreateGarmentInput,
   CreateGarmentMutation,
   CreateOutfitInput,
-  CreateOutfitMutation,
   Garment,
   Outfit,
   CreateOutfitWithGarmentsMutation,
@@ -25,7 +22,7 @@ interface ClosetState {
   addGarment: (garment: CreateGarmentInput) => Promise<void>;
   getGarment: (id: string) => Garment | undefined;
   outfits: Outfit[];
-  addOutfit: (outfit: CreateOutfitInput) => void;
+  addOutfit: (outfit: CreateOutfitInput, garments: Garment[]) => void;
   fetchOutfits: () => Promise<void>;
   getOutfit: (id: string) => Outfit | undefined;
   pickedGarments: Garment[];
@@ -75,11 +72,10 @@ export const useClosetStore = create<ClosetState>((set, get) => ({
       console.log(error);
     }
   },
-  addOutfit: async (outfit) => {
+  addOutfit: async (outfit, garments) => {
     const user = await Auth.currentAuthenticatedUser();
     const userId = user.attributes.sub;
     try {
-      const garments = get().pickedGarments;
       const garmentIds = garments.map((garment) => garment.id);
       if (!outfit.name) {
         console.error("Outfit name is required");
