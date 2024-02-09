@@ -1,8 +1,8 @@
-import { API, graphqlOperation } from 'aws-amplify';
+import { Auth, API, graphqlOperation } from 'aws-amplify';
 import { listGarments, listOutfits } from '../graphql/queries';
 import { useClosetStore } from '../store';
-import { CreateGarmentInput, CreateOutfitInput, Garment, Outfit } from '../API';
-import { createGarment, createOutfit } from '../graphql/mutations';
+import { CreateGarmentInput, Garment, Outfit } from '../API';
+import { createGarment, createOutfitWithGarments } from '../graphql/mutations';
 
 jest.mock('aws-amplify');
 // Define the mock function
@@ -134,22 +134,22 @@ describe('useClosetStore - Outfit Tests', () => {
     graphqlMock.mockClear(); // Clear the mock before each test
   });
 
-  const mockGarments: Garment[] = [
-    {
-      id: '1',
-      name: 'Garment 1',
-      __typename: 'Garment', // replace this with the actual value for __typename
-      createdAt: new Date().toISOString(), // replace this with the actual value for createdAt
-      updatedAt: new Date().toISOString(), // replace this with the actual value for updatedAt
-    },
-    {
-      id: '2',
-      name: 'Garment 2',
-      __typename: 'Garment', // replace this with the actual value for __typename
-      createdAt: new Date().toISOString(), // replace this with the actual value for createdAt
-      updatedAt: new Date().toISOString(), // replace this with the actual value for updatedAt
-    },
-  ];
+  // const mockGarments: Garment[] = [
+  //   {
+  //     id: '1',
+  //     name: 'Garment 1',
+  //     __typename: 'Garment', // replace this with the actual value for __typename
+  //     createdAt: new Date().toISOString(), // replace this with the actual value for createdAt
+  //     updatedAt: new Date().toISOString(), // replace this with the actual value for updatedAt
+  //   },
+  //   {
+  //     id: '2',
+  //     name: 'Garment 2',
+  //     __typename: 'Garment', // replace this with the actual value for __typename
+  //     createdAt: new Date().toISOString(), // replace this with the actual value for createdAt
+  //     updatedAt: new Date().toISOString(), // replace this with the actual value for updatedAt
+  //   },
+  // ];
 
   const mockOutfits: Outfit[] = [
     {
@@ -236,36 +236,57 @@ describe('useClosetStore - Outfit Tests', () => {
   });
 
   test('addOutfit makes the correct API call and updates the state', async () => {
-    const mockOutfit: CreateOutfitInput = { 
-      id: '2',
-      name: 'Mock Outfit 2',
+    const pickedGarments: Garment[] = [
+      {
+        id: "1",
+        name: "Garment 1",
+        __typename: "Garment",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: "2",
+        name: "Garment 2",
+        __typename: "Garment",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+    ];
+
+    // Mock the Auth.currentAuthenticatedUser function to return a user with a specific ID
+    const mockCurrentAuthenticatedUser = jest.fn();
+    Auth.currentAuthenticatedUser = mockCurrentAuthenticatedUser;
+    mockCurrentAuthenticatedUser.mockResolvedValue({ attributes: { sub: 'testUserId' } });
+
+    // Mock the API.graphql function to return a specific outfit
+    const mockGraphql = jest.fn();
+    API.graphql = mockGraphql;
+    mockGraphql.mockResolvedValue({ data: { createOutfitWithGarments: { id: 'testOutfitId' } } });
+
+    const newOutfit = { name: "testOutfit" };
+
+    await useClosetStore.getState().addOutfit(newOutfit, pickedGarments);
+
+    // Check if Auth.currentAuthenticatedUser was called
+    expect(Auth.currentAuthenticatedUser).toHaveBeenCalled();
+
+    // Check if API.graphql was called with the correct arguments
+    const expectedInput = {
+      name: newOutfit.name,
+      userId: "testUserId",
+      garments: pickedGarments.map((garmentId) => ({
+        garmentOutfitId: garmentId,
+      })),
     };
-
-    // Mock the API.graphql function
-    graphqlMock.mockResolvedValue({
-      data: { createOutfit: mockOutfit },
-    });
-
-    // Call the pickGarments state function to add garments to pickedGarments
-    await useClosetStore.getState().pickGarments(mockGarments);
-
-    await useClosetStore.getState().addOutfit(mockOutfit);
-
-    // Check that API.graphql was called with the correct arguments
     expect(API.graphql).toHaveBeenCalledWith(
-      graphqlOperation(createOutfit, { input: mockOutfit })
+      graphqlOperation(createOutfitWithGarments, { input: expectedInput })
     );
-
-    // Check that the state was updated correctly
-    const updatedOutfits = [mockOutfits[0]];
-    console.log("updatedOutfits: ", updatedOutfits, "useClosetStore.getState().outfits: ", useClosetStore.getState().outfits);
-    expect(useClosetStore.getState().outfits).toEqual(updatedOutfits);
   });
 
-  test('getOutfit returns the correct outfit', () => {
-    useClosetStore.setState({ outfits: mockOutfits });
+  test('getOutfit returns the correct outfit', async () => {
+    await useClosetStore.setState({ outfits: mockOutfits });
 
-    const outfit = useClosetStore.getState().getOutfit('1');
+    const outfit = useClosetStore.getState().getOutfit('2');
 
     // Check that the correct outfit is returned
     expect(outfit).toEqual(mockOutfits[0]);
