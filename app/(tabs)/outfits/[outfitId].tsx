@@ -9,7 +9,6 @@ export default function OutfitDetails() {
   const [outfit, setOutfit] = useState(null);
   const [garments, setGarments] = useState([]);
   const { outfitId } = useLocalSearchParams();
-  console.log("outfitId", outfitId);
   useEffect(() => {
     async function getOutfit() {
       const outfit = await useClosetStore.getState().getOutfit(outfitId);
@@ -20,7 +19,6 @@ export default function OutfitDetails() {
     }
     getOutfit();
   }, [outfitId]);
-  console.log("outfit", garments);
   return (
     <View style={styles.container}>
       <GarmentList garments={garments} />

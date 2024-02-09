@@ -17,8 +17,7 @@ export default function AddGarments() {
 //   );
   const [selectedGarmentIds, setSelectedGarmentIds] = useState([]);
   const params = useLocalSearchParams();
-  console.log("params", params);
-  console.log("garments", garments);
+
 
   const navigation = useNavigation();
 
@@ -43,7 +42,6 @@ export default function AddGarments() {
     });
   };
 
-  console.log("selectedGarments", selectedGarmentIds);
 
   return (
     <View style={styles.container}>

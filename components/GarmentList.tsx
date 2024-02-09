@@ -16,7 +16,6 @@ interface GarmentListProps {
 }
 
 const GarmentList = ({ garments }: GarmentListProps) => {
-  console.log("garments", garments);
   return (
     <View style={{ width: "100%" }}>
       <FlashList

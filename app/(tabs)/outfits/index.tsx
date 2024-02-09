@@ -8,7 +8,6 @@ import { FlashList } from "@shopify/flash-list";
 export default function OutfitLayout() {
   const outfits = useClosetStore((state) => state.outfits);
 
-  console.log("outfits", outfits);
   return (
     <View style={styles.container}>
       <View style={{ height: "80%", width: "100%" }}>

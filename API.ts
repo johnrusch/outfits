@@ -2,6 +2,12 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
+export type CreateOutfitWithGarmentsInput = {
+  name: string,
+  garmentIds: Array< string >,
+  userId: string,
+};
+
 export type Outfit = {
   __typename: "Outfit",
   id: string,
@@ -352,13 +358,12 @@ export type ModelSubscriptionOutfitGarmentFilterInput = {
   or?: Array< ModelSubscriptionOutfitGarmentFilterInput | null > | null,
 };
 
-export type AddGarmentsToOutfitMutationVariables = {
-  outfitId: string,
-  garmentIds: Array< string >,
+export type CreateOutfitWithGarmentsMutationVariables = {
+  input: CreateOutfitWithGarmentsInput,
 };
 
-export type AddGarmentsToOutfitMutation = {
-  addGarmentsToOutfit?:  {
+export type CreateOutfitWithGarmentsMutation = {
+  createOutfitWithGarments?:  {
     __typename: "Outfit",
     id: string,
     garments?:  {
