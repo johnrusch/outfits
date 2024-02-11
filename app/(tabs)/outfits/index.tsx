@@ -7,20 +7,19 @@ import { FlashList } from "@shopify/flash-list";
 
 export default function OutfitLayout() {
   const outfits = useClosetStore((state) => state.outfits);
-
+  console.log("outfits", outfits);
   return (
     <View style={styles.container}>
       <View style={{ height: "80%", width: "100%" }}>
         <FlashList
           data={outfits}
           renderItem={({ item }) => (
-            <Link
-              key={item.id}
-              href={{ pathname: `/outfits/${item.id}`, params: { item: item } }}
-            >
+            <Link key={item.id} href={{ pathname: `/outfits/${item.id}` }}>
               <View style={styles.outfitCard}>
                 <Text style={styles.outfitCardText}>{item.name}</Text>
-                <Text style={styles.outfitCardText}>{new Date(item?.createdAt).toDateString()}</Text>
+                <Text style={styles.outfitCardText}>
+                  {new Date(item?.createdAt).toDateString()}
+                </Text>
               </View>
             </Link>
           )}

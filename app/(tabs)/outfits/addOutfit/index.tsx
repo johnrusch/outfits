@@ -10,12 +10,12 @@ export default function addOutfit() {
   const [outfit, setOutfit] = React.useState({});
   const [garments, setGarments] = React.useState([]);
   const navigation = useNavigation();
+  const pickedGarments = useClosetStore((state) => state.pickedGarments);
 
   const createOutfit = async () => {
     // set the garments on the outfit
     // outfit.garments = pickedGarments;
     // make a call to the closet store to create the outfit
-    const pickedGarments = useClosetStore((state) => state.pickedGarments);
     try {
       await useClosetStore.getState().addOutfit(outfit, pickedGarments);
       // clear the picked garments
@@ -27,11 +27,6 @@ export default function addOutfit() {
     }
     // navigate to the main outfits page
   };
-
-  // React.useEffect(() => {
-  //   if (!selectedGarments || !Array.isArray(selectedGarments)) return;
-  //   setGarments((prevGarments) => [...prevGarments, ...selectedGarments]);
-  // }, [selectedGarments]);
 
   return (
     <View style={styles.container}>

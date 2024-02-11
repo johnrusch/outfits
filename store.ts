@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { API, graphqlOperation, Auth } from "aws-amplify";
-import { listGarments, listOutfits } from "./graphql/queries";
+import { listGarments } from "./graphql/queries";
+import { listOutfits, getOutfit } from "./custom_queries";
 import {
   createGarment,
   createOutfitWithGarments,
@@ -96,9 +97,14 @@ export const useClosetStore = create<ClosetState>((set, get) => ({
 
       if (createdOutfitData) {
         const createdOutfit: Outfit = createdOutfitData as Outfit;
-
+        const outfitResponse = await API.graphql(graphqlOperation(getOutfit, { id: createdOutfit.id }));
+        if (!('data' in outfitResponse) || !outfitResponse.data) {
+          console.error("No outfit found");
+          throw new Error("No outfit found");
+        }
+        const newOutfitWithGarms: Outfit = outfitResponse.data.getOutfit as Outfit;
         set((state) => ({
-          outfits: [...state.outfits, createdOutfit],
+          outfits: [...state.outfits, newOutfitWithGarms],
         }));
       }
     } catch (error) {

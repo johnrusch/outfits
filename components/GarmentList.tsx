@@ -1,23 +1,16 @@
 import React from "react";
 import { FlashList } from "@shopify/flash-list";
 import GarmentCard from "./GarmentCard";
-import { Text, View } from "./Themed";
-import { Link } from "expo-router";
-import { StyleSheet } from "react-native";
+import { View } from "./Themed";
+import { Garment } from "../API";
 
 interface GarmentListProps {
-  garments: Array<{
-    id: string;
-    name: string;
-    brand: string;
-    color: string;
-    size: string;
-  }>;
+  garments: Array<Garment>;
 }
 
 const GarmentList = ({ garments }: GarmentListProps) => {
   return (
-    <View style={{ width: "100%" }}>
+    <View style={{ width: "100%" }} testID="garmentList">
       <FlashList
         data={garments}
         keyExtractor={(item) => item.id.toString()}

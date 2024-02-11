@@ -2,23 +2,16 @@ import React from "react";
 import { Text, View } from "./Themed";
 import { StyleSheet } from "react-native";
 import { Link } from "expo-router";
+import { Garment } from "../API";
 
 interface GarmentCardProps {
-  garment: {
-    id: string;
-    name: string;
-    garmentType: string;
-    brand: string;
-    color: string;
-    size: string;
-    material: string;
-    source: string;
-  };
+  garment: Garment;
 }
 
 export const GarmentCard = ({ garment }: GarmentCardProps) => {
+  const garmentType = garment.garmentType || "";
   return (
-    <Link href={{ pathname: `/closet/${garment.id}`, params: { id: garment.id, type: garment.garmentType } }}>
+    <Link href={{ pathname: `/closet/${garment.id}`, params: { id: garment.id, type: garmentType } }} testID="garmentCard">
       <View style={styles.garmentCard}>
         <Text style={styles.garmentCardText}>{garment.name}</Text>
         <Text style={styles.garmentCardText}>{garment.garmentType}</Text>

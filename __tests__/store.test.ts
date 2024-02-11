@@ -1,14 +1,22 @@
-import { Auth, API, graphqlOperation } from 'aws-amplify';
-import { listGarments, listOutfits } from '../graphql/queries';
-import { useClosetStore } from '../store';
-import { CreateGarmentInput, Garment, Outfit } from '../API';
-import { createGarment, createOutfitWithGarments } from '../graphql/mutations';
+import { Auth, API, graphqlOperation } from "aws-amplify";
+import { listGarments, listOutfits } from "../graphql/queries";
+import { useClosetStore } from "../store";
+import { CreateGarmentInput, Garment, Outfit } from "../API";
+import { createGarment, createOutfitWithGarments } from "../graphql/mutations";
 
-jest.mock('aws-amplify');
+jest.mock("aws-amplify", () => ({
+  Auth: {
+    currentAuthenticatedUser: jest.fn(),
+  },
+  API: {
+    graphql: jest.fn(),
+  },
+  graphqlOperation: jest.fn(),
+}));
 // Define the mock function
 const graphqlMock = API.graphql as jest.MockedFunction<typeof API.graphql>;
 
-describe('useClosetStore - Garment Tests', () => {
+describe("useClosetStore - Garment Tests", () => {
   beforeEach(() => {
     useClosetStore.setState({ garments: [] }); // Reset the state before each test
     graphqlMock.mockClear(); // Clear the mock before each test
@@ -16,22 +24,22 @@ describe('useClosetStore - Garment Tests', () => {
 
   const mockGarments: Garment[] = [
     {
-      id: '1',
-      name: 'Garment 1',
-      __typename: 'Garment', // replace this with the actual value for __typename
+      id: "1",
+      name: "Garment 1",
+      __typename: "Garment", // replace this with the actual value for __typename
       createdAt: new Date().toISOString(), // replace this with the actual value for createdAt
       updatedAt: new Date().toISOString(), // replace this with the actual value for updatedAt
     },
     {
-      id: '2',
-      name: 'Garment 2',
-      __typename: 'Garment', // replace this with the actual value for __typename
+      id: "2",
+      name: "Garment 2",
+      __typename: "Garment", // replace this with the actual value for __typename
       createdAt: new Date().toISOString(), // replace this with the actual value for createdAt
       updatedAt: new Date().toISOString(), // replace this with the actual value for updatedAt
     },
   ];
 
-  test('fetchGarments makes the correct API call and updates the state', async () => {
+  test("fetchGarments makes the correct API call and updates the state", async () => {
     // Mock the API.graphql function
     graphqlMock.mockResolvedValue({
       data: { listGarments: { items: mockGarments } },
@@ -46,10 +54,10 @@ describe('useClosetStore - Garment Tests', () => {
     expect(useClosetStore.getState().garments).toEqual(mockGarments);
   });
 
-  test('addGarment makes the correct API call and updates the state', async () => {
+  test("addGarment makes the correct API call and updates the state", async () => {
     const mockGarment: CreateGarmentInput = {
-      id: '3',
-      name: 'Garment 3',
+      id: "3",
+      name: "Garment 3",
     };
 
     // Mock the API.graphql function
@@ -66,27 +74,27 @@ describe('useClosetStore - Garment Tests', () => {
 
     // Check that the state was updated correctly
     const updatedGarments = [mockGarment];
-    console.log(
-      'updatedGarments: ',
-      updatedGarments,
-      'useClosetStore.getState().garments: ',
-      useClosetStore.getState().garments
-    );
     expect(useClosetStore.getState().garments).toEqual(updatedGarments);
   });
 
-  test('getGarment returns the correct garment', () => {
+  test("getGarment returns the correct garment", () => {
     useClosetStore.setState({ garments: mockGarments });
 
-    const garment = useClosetStore.getState().getGarment('1');
+    const garment = useClosetStore.getState().getGarment("1");
 
     // Check that the correct garment is returned
     expect(garment).toEqual(mockGarments[0]);
   });
 
-  test('pickGarments updates the state with picked garments', () => {
+  test("pickGarments updates the state with picked garments", () => {
     const pickedGarments: Garment[] = [
-      { id: '3', name: 'Garment 3', __typename: 'Garment', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+      {
+        id: "3",
+        name: "Garment 3",
+        __typename: "Garment",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
     ];
 
     useClosetStore.setState({ garments: mockGarments, pickedGarments: [] });
@@ -94,15 +102,23 @@ describe('useClosetStore - Garment Tests', () => {
     useClosetStore.getState().pickGarments(pickedGarments);
 
     // Check that the state was updated correctly
-    expect(useClosetStore.getState().pickedGarments).toEqual([...pickedGarments]);
+    expect(useClosetStore.getState().pickedGarments).toEqual([
+      ...pickedGarments,
+    ]);
     expect(useClosetStore.getState().pickableGarments).toEqual([
       ...mockGarments.filter((garment) => !pickedGarments.includes(garment)),
     ]);
   });
 
-  test('removePickedGarment removes the picked garment from the state', () => {
+  test("removePickedGarment removes the picked garment from the state", () => {
     const pickedGarments: Garment[] = [
-      { id: '3', name: 'Garment 3', __typename: 'Garment', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+      {
+        id: "3",
+        name: "Garment 3",
+        __typename: "Garment",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
     ];
 
     useClosetStore.setState({ garments: mockGarments, pickedGarments });
@@ -113,10 +129,22 @@ describe('useClosetStore - Garment Tests', () => {
     expect(useClosetStore.getState().pickedGarments).toEqual([]);
   });
 
-  test('clearPickedGarments clears the picked garments from the state', () => {
+  test("clearPickedGarments clears the picked garments from the state", () => {
     const pickedGarments: Garment[] = [
-      { id: '1', name: 'Garment 1', __typename: 'Garment', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
-      { id: '2', name: 'Garment 2', __typename: 'Garment', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+      {
+        id: "1",
+        name: "Garment 1",
+        __typename: "Garment",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: "2",
+        name: "Garment 2",
+        __typename: "Garment",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
     ];
 
     useClosetStore.setState({ pickedGarments });
@@ -128,99 +156,122 @@ describe('useClosetStore - Garment Tests', () => {
   });
 });
 
-describe('useClosetStore - Outfit Tests', () => {
+describe("useClosetStore - Outfit Tests", () => {
   beforeEach(() => {
     useClosetStore.setState({ outfits: [] }); // Reset the state before each test
     graphqlMock.mockClear(); // Clear the mock before each test
   });
 
-  // const mockGarments: Garment[] = [
-  //   {
-  //     id: '1',
-  //     name: 'Garment 1',
-  //     __typename: 'Garment', // replace this with the actual value for __typename
-  //     createdAt: new Date().toISOString(), // replace this with the actual value for createdAt
-  //     updatedAt: new Date().toISOString(), // replace this with the actual value for updatedAt
-  //   },
-  //   {
-  //     id: '2',
-  //     name: 'Garment 2',
-  //     __typename: 'Garment', // replace this with the actual value for __typename
-  //     createdAt: new Date().toISOString(), // replace this with the actual value for createdAt
-  //     updatedAt: new Date().toISOString(), // replace this with the actual value for updatedAt
-  //   },
-  // ];
-
   const mockOutfits: Outfit[] = [
     {
-      name: 'Mock Outfit 2',
+      name: "Mock Outfit 2",
       garments: {
-        __typename: 'ModelOutfitGarmentConnection',
+        __typename: "ModelOutfitGarmentConnection",
         items: [
           {
-            id: '3',
-            __typename: 'OutfitGarment',
+            id: "3",
+            __typename: "OutfitGarment",
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
-            outfitId: '2',
-            garmentId: '1',
-            outfit: { id: '2', __typename: 'Outfit', createdAt: '', updatedAt: '' },
-            garment: { id: '1', __typename: 'Garment', createdAt: '', updatedAt: '' },
+            outfitId: "2",
+            garmentId: "1",
+            outfit: {
+              id: "2",
+              __typename: "Outfit",
+              createdAt: "",
+              updatedAt: "",
+            },
+            garment: {
+              id: "1",
+              __typename: "Garment",
+              createdAt: "",
+              updatedAt: "",
+            },
           },
           {
-            id: '4',
-            __typename: 'OutfitGarment',
+            id: "4",
+            __typename: "OutfitGarment",
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
-            outfitId: '2',
-            garmentId: '2',
-            outfit: { id: '2', __typename: 'Outfit', createdAt: '', updatedAt: '' },
-            garment: { id: '2', __typename: 'Garment', createdAt: '', updatedAt: '' },
+            outfitId: "2",
+            garmentId: "2",
+            outfit: {
+              id: "2",
+              __typename: "Outfit",
+              createdAt: "",
+              updatedAt: "",
+            },
+            garment: {
+              id: "2",
+              __typename: "Garment",
+              createdAt: "",
+              updatedAt: "",
+            },
           },
         ],
         nextToken: null,
       },
-      id: '2',
+      id: "2",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      __typename: 'Outfit',
+      __typename: "Outfit",
     },
     {
-      name: 'Mock Outfit 3',
+      name: "Mock Outfit 3",
       garments: {
-        __typename: 'ModelOutfitGarmentConnection',
+        __typename: "ModelOutfitGarmentConnection",
         items: [
           {
-            id: '3',
-            __typename: 'OutfitGarment',
+            id: "3",
+            __typename: "OutfitGarment",
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
-            outfitId: 'outfitId',
-            garmentId: 'garmentId',
-            outfit: { id: 'outfitId', __typename: 'Outfit', createdAt: '', updatedAt: '' },
-            garment: { id: 'garmentId', __typename: 'Garment', createdAt: '', updatedAt: '' },
+            outfitId: "outfitId",
+            garmentId: "garmentId",
+            outfit: {
+              id: "outfitId",
+              __typename: "Outfit",
+              createdAt: "",
+              updatedAt: "",
+            },
+            garment: {
+              id: "garmentId",
+              __typename: "Garment",
+              createdAt: "",
+              updatedAt: "",
+            },
           },
           {
-            id: '4',
-            __typename: 'OutfitGarment',
+            id: "4",
+            __typename: "OutfitGarment",
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
-            outfitId: 'outfitId',
-            garmentId: 'garmentId',
-            outfit: { id: 'outfitId', __typename: 'Outfit', createdAt: '', updatedAt: '' },
-            garment: { id: 'garmentId', __typename: 'Garment', createdAt: '', updatedAt: '' },
+            outfitId: "outfitId",
+            garmentId: "garmentId",
+            outfit: {
+              id: "outfitId",
+              __typename: "Outfit",
+              createdAt: "",
+              updatedAt: "",
+            },
+            garment: {
+              id: "garmentId",
+              __typename: "Garment",
+              createdAt: "",
+              updatedAt: "",
+            },
           },
         ],
         nextToken: null,
       },
-      id: '3',
+      id: "3",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      __typename: 'Outfit',
+      __typename: "Outfit",
     },
   ];
 
-  test('fetchOutfits makes the correct API call and updates the state', async () => {
+  test("fetchOutfits makes the correct API call and updates the state", async () => {
     // Mock the API.graphql function
     graphqlMock.mockResolvedValue({
       data: { listOutfits: { items: mockOutfits } },
@@ -235,7 +286,7 @@ describe('useClosetStore - Outfit Tests', () => {
     expect(useClosetStore.getState().outfits).toEqual(mockOutfits);
   });
 
-  test('addOutfit makes the correct API call and updates the state', async () => {
+  test("addOutfit makes the correct API call and updates the state", async () => {
     const pickedGarments: Garment[] = [
       {
         id: "1",
@@ -256,12 +307,16 @@ describe('useClosetStore - Outfit Tests', () => {
     // Mock the Auth.currentAuthenticatedUser function to return a user with a specific ID
     const mockCurrentAuthenticatedUser = jest.fn();
     Auth.currentAuthenticatedUser = mockCurrentAuthenticatedUser;
-    mockCurrentAuthenticatedUser.mockResolvedValue({ attributes: { sub: 'testUserId' } });
+    mockCurrentAuthenticatedUser.mockResolvedValue({
+      attributes: { sub: "testUserId" },
+    });
 
     // Mock the API.graphql function to return a specific outfit
     const mockGraphql = jest.fn();
     API.graphql = mockGraphql;
-    mockGraphql.mockResolvedValue({ data: { createOutfitWithGarments: { id: 'testOutfitId' } } });
+    mockGraphql.mockResolvedValue({
+      data: { createOutfitWithGarments: { id: "testOutfitId" } },
+    });
 
     const newOutfit = { name: "testOutfit" };
 
@@ -283,10 +338,10 @@ describe('useClosetStore - Outfit Tests', () => {
     );
   });
 
-  test('getOutfit returns the correct outfit', async () => {
+  test("getOutfit returns the correct outfit", async () => {
     await useClosetStore.setState({ outfits: mockOutfits });
 
-    const outfit = useClosetStore.getState().getOutfit('2');
+    const outfit = useClosetStore.getState().getOutfit("2");
 
     // Check that the correct outfit is returned
     expect(outfit).toEqual(mockOutfits[0]);
