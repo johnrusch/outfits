@@ -33,19 +33,6 @@ export const listOutfits = /* GraphQL */ `query ListOutfits(
     items {
       id
       name
-      garments {
-        items {
-          garment {
-            id
-            name
-            image
-            color
-            size
-            garmentType
-            material
-          }
-        }
-      }
       dateWorn
       createdAt
       updatedAt

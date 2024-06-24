@@ -1,31 +1,38 @@
 {
-  "staging": {
+  "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-outfits-staging-213134-authRole",
-      "UnauthRoleArn": "arn:aws:iam::691777775550:role/amplify-outfits-staging-213134-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::691777775550:role/amplify-outfits-staging-213134-authRole",
+      "AuthRoleName": "amplify-outfits-dev-221143-authRole",
+      "UnauthRoleArn": "arn:aws:iam::975050038298:role/amplify-outfits-dev-221143-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::975050038298:role/amplify-outfits-dev-221143-authRole",
       "Region": "us-west-2",
-      "DeploymentBucketName": "amplify-outfits-staging-213134-deployment",
-      "UnauthRoleName": "amplify-outfits-staging-213134-unauthRole",
-      "StackName": "amplify-outfits-staging-213134",
-      "StackId": "arn:aws:cloudformation:us-west-2:691777775550:stack/amplify-outfits-staging-213134/bafc84f0-5fd8-11ee-b5ef-0ab80961a9db",
-      "AmplifyAppId": "d2p4qzl95qobda"
+      "DeploymentBucketName": "amplify-outfits-dev-221143-deployment",
+      "UnauthRoleName": "amplify-outfits-dev-221143-unauthRole",
+      "StackName": "amplify-outfits-dev-221143",
+      "StackId": "arn:aws:cloudformation:us-west-2:975050038298:stack/amplify-outfits-dev-221143/3fa0a100-31e8-11ef-8474-06f2950331a5",
+      "AmplifyAppId": "dlu0iljt1mo8c"
     },
     "categories": {
       "auth": {
         "outfits": {}
+      },
+      "function": {
+        "outfits34db5025": {
+          "deploymentBucketName": "amplify-outfits-dev-221143-deployment",
+          "s3Key": "amplify-builds/outfits34db5025-425866636532384d3761-build.zip"
+        }
       },
       "api": {
         "outfits": {}
       },
       "storage": {
         "outfitsImages": {}
-      },
+      }
+    }
+  },
+  "staging": {
+    "categories": {
       "function": {
-        "outfits34db5025": {
-          "deploymentBucketName": "amplify-outfits-staging-213134-deployment",
-          "s3Key": "amplify-builds/outfits34db5025-425866636532384d3761-build.zip"
-        }
+        "outfits34db5025": {}
       }
     }
   }
