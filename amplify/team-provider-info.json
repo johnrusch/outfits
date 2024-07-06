@@ -19,7 +19,8 @@
         "outfits34db5025": {
           "deploymentBucketName": "amplify-outfits-dev-221143-deployment",
           "s3Key": "amplify-builds/outfits34db5025-425866636532384d3761-build.zip"
-        }
+        },
+        "imageProcessor": {}
       },
       "api": {
         "outfits": {}

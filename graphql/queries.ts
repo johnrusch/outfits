@@ -59,6 +59,7 @@ export const getGarment = /* GraphQL */ `query GetGarment($id: ID!) {
     acquisitionType
     source
     image
+    thumbnail
     garmentType
     outfits {
       nextToken
@@ -91,6 +92,7 @@ export const listGarments = /* GraphQL */ `query ListGarments(
       acquisitionType
       source
       image
+      thumbnail
       garmentType
       createdAt
       updatedAt
@@ -130,6 +132,7 @@ export const getOutfitGarment = /* GraphQL */ `query GetOutfitGarment($id: ID!) 
       acquisitionType
       source
       image
+      thumbnail
       garmentType
       createdAt
       updatedAt

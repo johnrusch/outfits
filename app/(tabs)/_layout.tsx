@@ -37,18 +37,24 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarStyle: {
+          backgroundColor: "#f0ead2",
+          height: 60,
+        },
+        tabBarInactiveTintColor: "#6c584c",
+        headerStyle: {
+          backgroundColor: "#FEFEFE",
+        },
+        headerTintColor: "#000000",
       }}
+      initialRouteName="closet/index"
     >
       <Tabs.Screen
         name="closet/index"
         options={{
           title: "Closet",
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="wardrobe-outline"
-              size={28}
-              color={color}
-            />
+            <MaterialCommunityIcons name="wardrobe" size={28} color={color} />
           ),
           headerRight: () => (
             <Link href="/closet/addGarment" asChild>
@@ -57,13 +63,14 @@ export default function TabLayout() {
                   <FontAwesome
                     name="plus"
                     size={25}
-                    color={Colors[colorScheme ?? "light"].text}
+                    color={Colors[colorScheme ?? "light"].icon}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                   />
                 )}
               </Pressable>
             </Link>
           ),
+          headerTitleAlign: "center",
         }}
       />
       <Tabs.Screen
@@ -71,6 +78,7 @@ export default function TabLayout() {
         options={{
           title: "Add New Garment",
           href: null,
+          headerTitleAlign: "center",
         }}
       />
       <Tabs.Screen
@@ -78,6 +86,7 @@ export default function TabLayout() {
         options={{
           title: "Garment",
           href: null,
+          headerTitleAlign: "center",
         }}
       />
       <Tabs.Screen
@@ -101,6 +110,7 @@ export default function TabLayout() {
               </Pressable>
             </Link>
           ),
+          headerTitleAlign: "center",
         }}
       />
       <Tabs.Screen
@@ -122,13 +132,23 @@ export default function TabLayout() {
               </Pressable>
             </Link>
           ),
+          headerTitleAlign: "center",
         }}
       />
       <Tabs.Screen
-        name="outfits/[outfitId]"
+        name="outfits/[outfitId]/index"
         options={{
           title: "Outfit",
           href: null,
+          headerTitleAlign: "center",
+        }}
+      />
+      <Tabs.Screen
+        name="outfits/[outfitId]/[garmentId]"
+        options={{
+          title: "Garment",
+          href: null,
+          headerTitleAlign: "center",
         }}
       />
       <Tabs.Screen
@@ -136,6 +156,7 @@ export default function TabLayout() {
         options={{
           title: "Add Garments to Outfit",
           href: null,
+          headerTitleAlign: "center",
         }}
       />
       <Tabs.Screen
@@ -143,6 +164,7 @@ export default function TabLayout() {
         options={{
           title: "Me",
           tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+          headerTitleAlign: "center",
         }}
       />
     </Tabs>

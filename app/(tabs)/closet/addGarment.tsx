@@ -110,8 +110,11 @@ export default function AddGarment() {
           )}`
         : null;
       if (imageKey) {
+        // create key for image thumbnail in ${user.username}/thumbnails/${Date.now()}-${newGarment.name.replace(/\s/g, "-")}
+        const thumbnailKey = `${user.username}/thumbnails/${Date.now()}-${newGarment.name.replace(/\s/g, "-")}`;
         const s3Key = await handleImagePicked(newGarment.image, imageKey);
         newGarment.image = s3Key;
+        newGarment.thumbnail = thumbnailKey;
       }
       useClosetStore.getState().addGarment(newGarment);
       setNewGarment({

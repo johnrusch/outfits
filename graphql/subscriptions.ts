@@ -89,6 +89,7 @@ export const onCreateGarment = /* GraphQL */ `subscription OnCreateGarment(
     acquisitionType
     source
     image
+    thumbnail
     garmentType
     outfits {
       nextToken
@@ -119,6 +120,7 @@ export const onUpdateGarment = /* GraphQL */ `subscription OnUpdateGarment(
     acquisitionType
     source
     image
+    thumbnail
     garmentType
     outfits {
       nextToken
@@ -149,6 +151,7 @@ export const onDeleteGarment = /* GraphQL */ `subscription OnDeleteGarment(
     acquisitionType
     source
     image
+    thumbnail
     garmentType
     outfits {
       nextToken
@@ -192,6 +195,7 @@ export const onCreateOutfitGarment = /* GraphQL */ `subscription OnCreateOutfitG
       acquisitionType
       source
       image
+      thumbnail
       garmentType
       createdAt
       updatedAt
@@ -236,6 +240,7 @@ export const onUpdateOutfitGarment = /* GraphQL */ `subscription OnUpdateOutfitG
       acquisitionType
       source
       image
+      thumbnail
       garmentType
       createdAt
       updatedAt
@@ -280,6 +285,7 @@ export const onDeleteOutfitGarment = /* GraphQL */ `subscription OnDeleteOutfitG
       acquisitionType
       source
       image
+      thumbnail
       garmentType
       createdAt
       updatedAt

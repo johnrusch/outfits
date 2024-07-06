@@ -1,8 +1,13 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react-native";
+import { render, fireEvent, waitFor } from "@testing-library/react-native";
 import GarmentList from "../../components/GarmentList";
-import GarmentCard from "../../components/GarmentCard";
-import { Garment } from "../../API";
+import { Garment, GarmentType } from "../../API";
+import { useRouter } from 'expo-router';
+
+jest.mock("expo-router", () => ({
+  useRouter: jest.fn(),
+}));
+
 
 const mockGarments: Garment[] = [
   {
@@ -11,6 +16,7 @@ const mockGarments: Garment[] = [
     __typename: "Garment", // replace this with the actual value for __typename
     createdAt: new Date().toISOString(), // replace this with the actual value for createdAt
     updatedAt: new Date().toISOString(), // replace this with the actual value for updatedAt
+    garmentType: GarmentType.SHIRT,
   },
   {
     id: "2",
@@ -18,6 +24,7 @@ const mockGarments: Garment[] = [
     __typename: "Garment", // replace this with the actual value for __typename
     createdAt: new Date().toISOString(), // replace this with the actual value for createdAt
     updatedAt: new Date().toISOString(), // replace this with the actual value for updatedAt
+    garmentType: GarmentType.PANTS,
   },
 ];
 

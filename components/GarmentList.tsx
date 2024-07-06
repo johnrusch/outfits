@@ -6,11 +6,12 @@ import { Garment } from "../API";
 
 interface GarmentListProps {
   garments: Array<Garment>;
+  outfitId?: string;
 }
 
 const GarmentList = ({ garments }: GarmentListProps) => {
   return (
-    <View style={{ width: "100%" }} testID="garmentList">
+    <View style={{ width: "100%", flexGrow: 1 }} testID="garmentList">
       <FlashList
         data={garments}
         keyExtractor={(item) => item.id.toString()}

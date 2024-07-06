@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Text, View } from "../../../components/Themed";
 import { Link } from "expo-router";
@@ -25,7 +25,7 @@ export default function ClosetLayout() {
   }, [garments]);
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {Object.keys(organizedGarments).map((key) => (
         <ExpandableView key={key} title={key}>
           <GarmentList garments={organizedGarments[key]} />
@@ -34,21 +34,20 @@ export default function ClosetLayout() {
       <Link href="/closet/addGarment">
         <Text style={styles.link}>Add new garment</Text>
       </Link>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "scroll",
+    // alignItems: "center",
+    // justifyContent: "center",
+    backgroundColor: "#EFEFEF",
   },
   garmentCard: {
     backgroundColor: "gray",
     borderRadius: 10,
-    border: "1px solid white",
     padding: 10,
     margin: 5,
     width: "80%",

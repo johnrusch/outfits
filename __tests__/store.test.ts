@@ -1,7 +1,7 @@
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import { listGarments, listOutfits } from "../graphql/queries";
 import { useClosetStore } from "../store";
-import { CreateGarmentInput, Garment, Outfit } from "../API";
+import { CreateGarmentInput, Garment, GarmentType, Outfit } from "../API";
 import { createGarment, createOutfitWithGarments } from "../graphql/mutations";
 
 jest.mock("aws-amplify", () => ({
@@ -29,6 +29,7 @@ describe("useClosetStore - Garment Tests", () => {
       __typename: "Garment", // replace this with the actual value for __typename
       createdAt: new Date().toISOString(), // replace this with the actual value for createdAt
       updatedAt: new Date().toISOString(), // replace this with the actual value for updatedAt
+      garmentType: GarmentType.SHIRT, // replace this with the actual value for garmentType
     },
     {
       id: "2",
@@ -36,6 +37,7 @@ describe("useClosetStore - Garment Tests", () => {
       __typename: "Garment", // replace this with the actual value for __typename
       createdAt: new Date().toISOString(), // replace this with the actual value for createdAt
       updatedAt: new Date().toISOString(), // replace this with the actual value for updatedAt
+      garmentType: GarmentType.PANTS, // replace this with the actual value for garmentType
     },
   ];
 
@@ -58,6 +60,7 @@ describe("useClosetStore - Garment Tests", () => {
     const mockGarment: CreateGarmentInput = {
       id: "3",
       name: "Garment 3",
+      garmentType: GarmentType.SHIRT,
     };
 
     // Mock the API.graphql function
@@ -94,6 +97,7 @@ describe("useClosetStore - Garment Tests", () => {
         __typename: "Garment",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        garmentType: GarmentType.SHIRT,
       },
     ];
 
@@ -118,6 +122,7 @@ describe("useClosetStore - Garment Tests", () => {
         __typename: "Garment",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        garmentType: GarmentType.SHIRT,
       },
     ];
 
@@ -137,6 +142,7 @@ describe("useClosetStore - Garment Tests", () => {
         __typename: "Garment",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        garmentType: GarmentType.SHIRT,
       },
       {
         id: "2",
@@ -144,6 +150,7 @@ describe("useClosetStore - Garment Tests", () => {
         __typename: "Garment",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        garmentType: GarmentType.PANTS,
       },
     ];
 
@@ -186,6 +193,7 @@ describe("useClosetStore - Outfit Tests", () => {
               __typename: "Garment",
               createdAt: "",
               updatedAt: "",
+              garmentType: GarmentType.SHIRT,
             },
           },
           {
@@ -206,6 +214,7 @@ describe("useClosetStore - Outfit Tests", () => {
               __typename: "Garment",
               createdAt: "",
               updatedAt: "",
+              garmentType: GarmentType.PANTS,
             },
           },
         ],
@@ -239,6 +248,7 @@ describe("useClosetStore - Outfit Tests", () => {
               __typename: "Garment",
               createdAt: "",
               updatedAt: "",
+              garmentType: GarmentType.SHIRT,
             },
           },
           {
@@ -259,6 +269,7 @@ describe("useClosetStore - Outfit Tests", () => {
               __typename: "Garment",
               createdAt: "",
               updatedAt: "",
+              garmentType: GarmentType.PANTS,
             },
           },
         ],
@@ -294,6 +305,7 @@ describe("useClosetStore - Outfit Tests", () => {
         __typename: "Garment",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        garmentType: GarmentType.SHIRT,
       },
       {
         id: "2",
@@ -301,6 +313,7 @@ describe("useClosetStore - Outfit Tests", () => {
         __typename: "Garment",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        garmentType: GarmentType.PANTS,
       },
     ];
 

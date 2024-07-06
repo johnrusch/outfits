@@ -108,6 +108,7 @@ export const createGarment = /* GraphQL */ `mutation CreateGarment(
     acquisitionType
     source
     image
+    thumbnail
     garmentType
     outfits {
       nextToken
@@ -138,6 +139,7 @@ export const updateGarment = /* GraphQL */ `mutation UpdateGarment(
     acquisitionType
     source
     image
+    thumbnail
     garmentType
     outfits {
       nextToken
@@ -168,6 +170,7 @@ export const deleteGarment = /* GraphQL */ `mutation DeleteGarment(
     acquisitionType
     source
     image
+    thumbnail
     garmentType
     outfits {
       nextToken
@@ -211,6 +214,7 @@ export const createOutfitGarment = /* GraphQL */ `mutation CreateOutfitGarment(
       acquisitionType
       source
       image
+      thumbnail
       garmentType
       createdAt
       updatedAt
@@ -255,6 +259,7 @@ export const updateOutfitGarment = /* GraphQL */ `mutation UpdateOutfitGarment(
       acquisitionType
       source
       image
+      thumbnail
       garmentType
       createdAt
       updatedAt
@@ -299,6 +304,7 @@ export const deleteOutfitGarment = /* GraphQL */ `mutation DeleteOutfitGarment(
       acquisitionType
       source
       image
+      thumbnail
       garmentType
       createdAt
       updatedAt

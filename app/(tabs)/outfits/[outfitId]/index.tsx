@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, Text } from "../../../components/Themed";
+import { View, Text } from "../../../../components/Themed";
 import { StyleSheet } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { useClosetStore } from "../../../store";
-import GarmentList from "../../../components/GarmentList";
-import { Garment, Outfit } from "../../../API";
+import { useClosetStore } from "../../../../store";
+import GarmentList from "../../../../components/GarmentList";
+import { Garment, Outfit } from "../../../../API";
 
 export default function OutfitDetails() {
   const [outfit, setOutfit] = useState<Outfit | null>(null);
@@ -13,6 +13,7 @@ export default function OutfitDetails() {
   const { outfitId } = useLocalSearchParams();
   useEffect(() => {
     async function getOutfit() {
+      if (!outfitId) return;
       const outfit = await useClosetStore
         .getState()
         .getOutfit(outfitId.toString()); // Convert outfitId to string
@@ -30,7 +31,7 @@ export default function OutfitDetails() {
   return (
     <View style={styles.container}>
       <Text>{outfit?.name}</Text>
-      {garments && <GarmentList garments={garments} />}
+      {garments && <GarmentList garments={garments} outfitId={outfit?.id} />}
     </View>
   );
 }

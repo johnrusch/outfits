@@ -1,8 +1,9 @@
 import React from "react";
 import { Text, View } from "./Themed";
-import { StyleSheet } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 import { Link } from "expo-router";
 import { Garment } from "../API";
+import { Image } from "expo-image";
 
 interface GarmentCardProps {
   garment: Garment;
@@ -11,16 +12,32 @@ interface GarmentCardProps {
 export const GarmentCard = ({ garment }: GarmentCardProps) => {
   const garmentType = garment.garmentType || "";
   return (
-    <Link href={{ pathname: `/closet/${garment.id}`, params: { id: garment.id, type: garmentType } }} testID="garmentCard">
-      <View style={styles.garmentCard}>
-        <Text style={styles.garmentCardText}>{garment.name}</Text>
-        <Text style={styles.garmentCardText}>{garment.garmentType}</Text>
-        <Text style={styles.garmentCardText}>{garment.color}</Text>
-        <Text style={styles.garmentCardText}>{garment.size}</Text>
-        <Text style={styles.garmentCardText}>{garment.material}</Text>
-        <Text style={styles.garmentCardText}>{garment.brand}</Text>
-        <Text style={styles.garmentCardText}>{garment.source}</Text>
-      </View>
+    <Link
+      asChild
+      push
+      href={{
+        pathname: `/closet/${garment.id}`,
+        params: { id: garment.id, type: garmentType },
+      }}
+      testID="garmentCard"
+    >
+      <Pressable>
+        <View style={styles.garmentCard}>
+          <View style={styles.garmentThumbnailSection}>
+            <Image
+              source={garment.image}
+              style={{
+                height: 100,
+                width: 100,
+                zIndex: 1000,
+              }}
+            />
+          </View>
+          <View style={styles.garmentNameSection}>
+            <Text style={styles.garmentCardText}>{garment.name}</Text>
+          </View>
+        </View>
+      </Pressable>
     </Link>
   );
 };
@@ -28,17 +45,42 @@ export const GarmentCard = ({ garment }: GarmentCardProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "scroll",
+    // alignItems: "center",
+    justifyContent: "space-between",
+    // overflow: "scroll",
+    // width: "100%",
+    borderWidth: 1,
+    borderColor: "red",
+    margin: 10,
+    borderRadius: 10,
   },
   garmentCard: {
-    backgroundColor: "gray",
+    flex: 1,
+    margin: 10,
+    backgroundColor: "#adc178",
+    justifyContent: "space-around",
+    padding: 5,
+    flexDirection: "row",
     borderRadius: 10,
-    border: "1px solid white",
+  },
+  garmentThumbnailSection: {
+    flexDirection: "column",
+    justifyContent: "center",
     padding: 10,
-    margin: 5,
-    width: "80%",
+    borderRadius: 10,
+  },
+  garmentNameSection: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignSelf: "center",
+    padding: 10,
+    backgroundColor: "#adc178",
+  },
+  garmentTextSection: {
+    flexDirection: "column",
+    justifyContent: "center",
+    padding: 10,
+    borderRadius: 10,
   },
   garmentCardText: {
     fontSize: 16,
@@ -46,7 +88,7 @@ const styles = StyleSheet.create({
     color: "black",
   },
   title: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "bold",
   },
   separator: {

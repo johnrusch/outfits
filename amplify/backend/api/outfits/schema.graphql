@@ -39,7 +39,8 @@ type Garment @model @auth(rules: [{allow: owner}]) {
   acquisitionType: AcquisitionType
   source: String
   image: String
-  garmentType: GarmentType
+  thumbnail: String
+  garmentType: GarmentType!
   outfits: [Outfit] @manyToMany(relationName: "OutfitGarment")
 }
 

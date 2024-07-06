@@ -58,28 +58,32 @@
     }
   },
   "function": {
+    "imageProcessor": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "outfits"
+        },
+        {
+          "attributes": [
+            "BucketName"
+          ],
+          "category": "storage",
+          "resourceName": "outfitsImages"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "outfits34db5025": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
-    }
-  },
-  "parameters": {
-    "AMPLIFY_function_outfits34db5025_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "outfits34db5025"
-        }
-      ]
-    },
-    "AMPLIFY_function_outfits34db5025_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "outfits34db5025"
-        }
-      ]
     }
   },
   "storage": {
