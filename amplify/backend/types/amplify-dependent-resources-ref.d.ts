@@ -17,7 +17,7 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "function": {
-    "imageProcessor": {
+    "imageworker": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",

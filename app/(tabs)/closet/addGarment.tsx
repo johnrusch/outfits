@@ -49,6 +49,7 @@ export default function AddGarment() {
       contentType: "image/jpeg",
       progressCallback(progress) {
         setLoading(progress);
+        setPercentage(progress.loaded);
       },
     })
       .then((response) => {
@@ -104,14 +105,14 @@ export default function AddGarment() {
     try {
       const user = await Auth.currentAuthenticatedUser();
       const imageKey = newGarment.image
-        ? `${user.username}/${Date.now()}-${newGarment.name.replace(
+        ? `raw/${user.username}/${Date.now()}-${newGarment.name.replace(
             /\s/g,
             "-"
           )}`
         : null;
       if (imageKey) {
         // create key for image thumbnail in ${user.username}/thumbnails/${Date.now()}-${newGarment.name.replace(/\s/g, "-")}
-        const thumbnailKey = `${user.username}/thumbnails/${Date.now()}-${newGarment.name.replace(/\s/g, "-")}`;
+        const thumbnailKey = `thumbnails/${user.username}/${Date.now()}-${newGarment.name.replace(/\s/g, "-")}`;
         const s3Key = await handleImagePicked(newGarment.image, imageKey);
         newGarment.image = s3Key;
         newGarment.thumbnail = thumbnailKey;
@@ -133,6 +134,8 @@ export default function AddGarment() {
       console.log("Error creating garment: ", error);
     }
   };
+
+  console.log("Loading: ", percentage);
 
   return (
     <View style={styles.container}>

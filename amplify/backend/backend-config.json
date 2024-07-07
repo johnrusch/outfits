@@ -58,7 +58,7 @@
     }
   },
   "function": {
-    "imageProcessor": {
+    "imageworker": {
       "build": true,
       "dependsOn": [
         {
