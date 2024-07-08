@@ -58,7 +58,7 @@
     }
   },
   "function": {
-    "imageworker": {
+    "imageProcessor": {
       "build": true,
       "dependsOn": [
         {
@@ -84,6 +84,40 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_imageProcessor_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "imageProcessor"
+        }
+      ]
+    },
+    "AMPLIFY_function_imageProcessor_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "imageProcessor"
+        }
+      ]
+    },
+    "AMPLIFY_function_outfits34db5025_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "outfits34db5025"
+        }
+      ]
+    },
+    "AMPLIFY_function_outfits34db5025_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "outfits34db5025"
+        }
+      ]
     }
   },
   "storage": {

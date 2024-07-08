@@ -14,7 +14,12 @@ const Garment = () => {
     const fetchGarmentAndImage = async () => {
       const garment = useClosetStore.getState().getGarment(id);
       if (!garment) return;
-      const image = await Storage.get(garment.image);
+      let image = await Storage.get(garment.image);
+      if (!image) {
+        console.log("No processed image found, fetching raw image");
+        const rawKey = garment.image?.replace("processed", "raw");
+        image = await Storage.get(rawKey);
+      }
       // Update the garment object with the new image URL
       const updatedGarment = { ...garment, image };
       setGarment(updatedGarment);

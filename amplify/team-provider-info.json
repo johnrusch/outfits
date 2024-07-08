@@ -20,9 +20,9 @@
           "deploymentBucketName": "amplify-outfits-dev-221143-deployment",
           "s3Key": "amplify-builds/outfits34db5025-425866636532384d3761-build.zip"
         },
-        "imageworker": {
+        "imageProcessor": {
           "deploymentBucketName": "amplify-outfits-dev-221143-deployment",
-          "s3Key": "amplify-builds/imageworker-416e6e2b64524f526a57-build.zip"
+          "s3Key": "amplify-builds/imageProcessor-5546363057342b657074-build.zip"
         }
       },
       "api": {
